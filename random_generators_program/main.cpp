@@ -1,62 +1,94 @@
 #include <randomgenerators.h>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
 double calculateVolumeBall(const int numberIter, const double radiusBall, int methodNumber = 0)
 {
-    double x = rgn_rand_initializ();
-    double y = rgn_rand_initializ();
-    double z = rgn_rand_initializ();
-    double x1 = 0;
-    double y1 = 0;
-    double z1 = 0;
-    int numberPointsBelongBall = 0;
-    for(int i=0; i < numberIter; ++i)
-    {
-        x1= rgn_rand(x1, methodNumber);
-        y1= rgn_rand(y1, methodNumber);
-        z1 = rgn_rand(z1, methodNumber);
+	double x = 0.0;
+	double y = 0.0;
+	double z = 0.0;
 
-        x = radiusBall * x1;
-        y = radiusBall * y1;
-        z = radiusBall * z1;
-        if ((x*x + y*y + z*z) < (radiusBall*radiusBall))
-        {
-            numberPointsBelongBall++;
-        };
-    }
-    double VolumeCube = radiusBall*radiusBall*radiusBall*8;
-    double res = ((double)numberPointsBelongBall / numberIter) * VolumeCube;
-    return res;
+	int numberPointsBelongBall = 0;
+
+	for (int i = 0; i < numberIter; ++i)
+	{
+		x = radiusBall * rgn_rand(methodNumber);
+		y = radiusBall * rgn_rand(methodNumber);
+		z = radiusBall * rgn_rand(methodNumber);
+
+		if ((x * x + y * y + z * z) < (radiusBall * radiusBall))
+		{
+			numberPointsBelongBall++;
+		};
+	}
+
+	double volumeCube = radiusBall * radiusBall * radiusBall * 8;
+	double resVolumeBall = ((double)numberPointsBelongBall / numberIter) * volumeCube;
+	return resVolumeBall;
 }
 
 int main()
 {
-    int numberIterations = 0;
-    int methodNumber = 0;
-    double radiusBall = 0.0;
-    double volumeBall = 0.0;
+	int numberIterations = 0;
 
-    /*cout<<volumeBall<<endl;
-    cout<<"Enter the number of iterations:"<<endl;
-    cin>>numberIterations;
-    cout<<"Enter the generation method number:"<<endl;
-    cin>>methodNumber;
-    cout<<"Enter the radius of the ball:"<<endl;
-    cin>>radiusBall;
-    cout<<"Aproximate volume is: "<<endl;
-    volumeBall = calculateVolumeBall(numberIterations,radiusBall,methodNumber);
-    cout<<volumeBall<<endl;*/
+	int methodNumber = 0;
+	double radiusBall = 0.0;
+	double volumeBall = 0.0;
+	double volumeBallReal = 0.0;
 
-    numberIterations =10000000;
-    radiusBall = 1.0;
+	numberIterations = 10000000;
+	radiusBall = 1.0;
 
-    for(methodNumber=0; methodNumber < 6; methodNumber++)
-    {
-        volumeBall = calculateVolumeBall(numberIterations,radiusBall, methodNumber);
-        cout<<volumeBall<<endl;
-    }
+	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
 
-    return 0;
+	cout << "-------------------------------------------------" << endl;
+	for (methodNumber = 1; methodNumber < 6; methodNumber++)
+	{
+		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
+			"  Method number:" << methodNumber << endl;
+
+		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
+
+		cout << " Aproximate ball volume:" << volumeBall <<
+			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+	}
+
+	numberIterations = 1000000;
+	radiusBall = 1.0;
+
+	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
+
+	cout << "-------------------------------------------------" << endl;
+	for (methodNumber = 1; methodNumber < 6; methodNumber++)
+	{
+		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
+			"  Method number:" << methodNumber << endl;
+
+		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
+
+		cout << " Aproximate ball volume:" << volumeBall <<
+			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+	}
+
+
+	numberIterations = 1000000;
+	radiusBall = 4.7;
+
+	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
+
+	cout << "-------------------------------------------------" << endl;
+	for (methodNumber = 1; methodNumber < 6; methodNumber++)
+	{
+		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
+			"  Method number:" << methodNumber << endl;
+
+		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
+
+		cout << " Aproximate ball volume:" << volumeBall <<
+			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+	}
+
+	return 0;
 }
