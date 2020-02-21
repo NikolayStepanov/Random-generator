@@ -1,0 +1,5 @@
+add_executable(random_generators_program main.cpp)
+
+include_directories(../random_generators_lib)
+
+target_link_libraries(random_generators_program random_generators_lib)
