@@ -7,7 +7,7 @@ inline double fractional_part_number(double value)
     return value - (int)value;
 }
 
-double rgn_rand(int method_number=1)
+double rgn_rand(int method_number)
 {
     double value_rgn = 0.0;
 
@@ -39,6 +39,7 @@ double rgn_srand(unsigned int seed)
 {
     seed = seed * 1103515245 + 12345;
     rgn_next = (double)((unsigned int)(seed / 65536) % 32768) / 32767;
+
     return rgn_next;
 }
 

@@ -26,14 +26,15 @@ double calculateVolumeBall(const int numberIter, const double radiusBall, int me
 
 	double volumeCube = radiusBall * radiusBall * radiusBall * 8;
 	double resVolumeBall = ((double)numberPointsBelongBall / numberIter) * volumeCube;
+
 	return resVolumeBall;
 }
 
 int main()
 {
 	int numberIterations = 0;
-
 	int methodNumber = 0;
+
 	double radiusBall = 0.0;
 	double volumeBall = 0.0;
 	double volumeBallReal = 0.0;
