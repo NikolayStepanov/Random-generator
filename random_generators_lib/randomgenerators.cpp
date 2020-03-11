@@ -1,38 +1,14 @@
 #include "randomgenerators.h"
+#include <cmath>
 
 static double rgn_next = 0.1;
 
 inline double fractional_part_number(double value)
 {
-    return value - (int)value;
-}
+    double x,n;
+    x = modf(value, &n);
 
-double rgn_rand(int method_number)
-{
-    double value_rgn = 0.0;
-
-    switch (method_number) {
-    case 1:
-        value_rgn = rgn_one();
-        break;
-    case 2:
-        value_rgn = rgn_two();
-        break;
-    case 3:
-        value_rgn = rgn_three();
-        break;
-    case 4:
-        value_rgn = rgn_four();
-        break;
-    case 5:
-        value_rgn = rgn_five();
-        break;
-    default:
-        value_rgn = rgn_one();
-        break;
-    }
-
-    return value_rgn;
+    return x;
 }
 
 double rgn_srand(unsigned int seed)

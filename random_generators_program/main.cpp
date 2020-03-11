@@ -4,7 +4,14 @@
 
 using namespace std;
 
-double calculateVolumeBall(const int numberIter, const double radiusBall, int methodNumber = 0)
+typedef double(*func_rand)();
+
+func_rand funcGenerators[] =
+{
+	rgn_one, rgn_two, rgn_three, rgn_four, rgn_five
+};
+
+double calculateVolumeBall(const int numberIter, const double radiusBall, double (*rgn_rand)())
 {
 	double x = 0.0;
 	double y = 0.0;
@@ -14,9 +21,9 @@ double calculateVolumeBall(const int numberIter, const double radiusBall, int me
 
 	for (int i = 0; i < numberIter; ++i)
 	{
-		x = radiusBall * rgn_rand(methodNumber);
-		y = radiusBall * rgn_rand(methodNumber);
-		z = radiusBall * rgn_rand(methodNumber);
+		x = radiusBall * rgn_rand();
+		y = radiusBall * rgn_rand();
+		z = radiusBall * rgn_rand();
 
 		if ((x * x + y * y + z * z) < (radiusBall * radiusBall))
 		{
@@ -30,6 +37,44 @@ double calculateVolumeBall(const int numberIter, const double radiusBall, int me
 	return resVolumeBall;
 }
 
+void resultsGeneratorsOutputÑonsole(int numberIterations, double radiusBall, int methodNumber = -1)
+{
+	double volumeBall = 0.0;
+	double volumeBallReal = 0.0;
+
+	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
+
+	cout << "-------------------------------------------------" << endl;
+
+	if (methodNumber == -1)
+	{
+		for (int methodNumber = 0; methodNumber < 5; methodNumber++)
+		{
+			cout << endl;
+			cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
+				"  Method number:" << methodNumber << endl;
+
+			volumeBall = calculateVolumeBall(numberIterations, radiusBall, funcGenerators[methodNumber]);
+
+			cout << " Aproximate ball volume:" << volumeBall <<
+				" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+		}
+
+	}
+	else {
+		cout << endl;
+		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
+			"  Method number:" << methodNumber << endl;
+
+		volumeBall = calculateVolumeBall(numberIterations, radiusBall, funcGenerators[methodNumber]);
+
+		cout << " Aproximate ball volume:" << volumeBall <<
+			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+	}
+}
+
+
+
 int main()
 {
 	int numberIterations = 0;
@@ -39,57 +84,41 @@ int main()
 	double volumeBall = 0.0;
 	double volumeBallReal = 0.0;
 
+	char key_exit = 'y';
+
+	rgn_srand(time(NULL));
+
 	numberIterations = 10000000;
 	radiusBall = 1.0;
-
-	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
-
-	cout << "-------------------------------------------------" << endl;
-	for (methodNumber = 1; methodNumber < 6; methodNumber++)
-	{
-		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
-			"  Method number:" << methodNumber << endl;
-
-		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
-
-		cout << " Aproximate ball volume:" << volumeBall <<
-			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
-	}
+	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
 
 	numberIterations = 1000000;
 	radiusBall = 1.0;
-
-	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
-
-	cout << "-------------------------------------------------" << endl;
-	for (methodNumber = 1; methodNumber < 6; methodNumber++)
-	{
-		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
-			"  Method number:" << methodNumber << endl;
-
-		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
-
-		cout << " Aproximate ball volume:" << volumeBall <<
-			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
-	}
-
+	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
 
 	numberIterations = 1000000;
 	radiusBall = 4.7;
+	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
 
-	volumeBallReal = (4.0 / 3) * PI * radiusBall * radiusBall * radiusBall;
-
-	cout << "-------------------------------------------------" << endl;
-	for (methodNumber = 1; methodNumber < 6; methodNumber++)
+	while (key_exit == 'y')
 	{
-		cout << "Iterations:" << numberIterations << "  Ball radius:" << radiusBall <<
-			"  Method number:" << methodNumber << endl;
+		cout << "-------------------------------------------------" << endl;
+		cout << "Enter the number of iterations:" << endl;
+		cin >> numberIterations;
+		cout << endl;
+		cout << "Enter the radius of the ball:" << endl;
+		cin >> radiusBall;
+		cout << endl;
+		cout << "Enter the generation method number:" << endl;
+		cin >> methodNumber;
+		cout << endl;
 
-		volumeBall = calculateVolumeBall(numberIterations, radiusBall, methodNumber);
+		resultsGeneratorsOutputÑonsole(numberIterations, radiusBall, methodNumber);
 
-		cout << " Aproximate ball volume:" << volumeBall <<
-			" Discrepancy:" << abs(volumeBallReal - volumeBall) << endl;
+		cout << "Continue calculation? yes-y" << endl;
+		cin >> key_exit;
 	}
 
+	system("pause");
 	return 0;
 }
