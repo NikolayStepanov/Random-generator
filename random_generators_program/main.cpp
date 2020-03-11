@@ -37,7 +37,7 @@ double calculateVolumeBall(const int numberIter, const double radiusBall, double
 	return resVolumeBall;
 }
 
-void resultsGeneratorsOutputÑonsole(int numberIterations, double radiusBall, int methodNumber = -1)
+void resultsGeneratorsOutputConsole(int numberIterations, double radiusBall, int methodNumber = -1)
 {
 	double volumeBall = 0.0;
 	double volumeBallReal = 0.0;
@@ -90,15 +90,15 @@ int main()
 
 	numberIterations = 10000000;
 	radiusBall = 1.0;
-	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
+	resultsGeneratorsOutputConsole(numberIterations, radiusBall);
 
 	numberIterations = 1000000;
 	radiusBall = 1.0;
-	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
+	resultsGeneratorsOutputConsole(numberIterations, radiusBall);
 
 	numberIterations = 1000000;
 	radiusBall = 4.7;
-	resultsGeneratorsOutputÑonsole(numberIterations, radiusBall);
+	resultsGeneratorsOutputConsole(numberIterations, radiusBall);
 
 	while (key_exit == 'y')
 	{
@@ -113,7 +113,7 @@ int main()
 		cin >> methodNumber;
 		cout << endl;
 
-		resultsGeneratorsOutputÑonsole(numberIterations, radiusBall, methodNumber);
+		resultsGeneratorsOutputConsole(numberIterations, radiusBall, methodNumber);
 
 		cout << "Continue calculation? yes-y" << endl;
 		cin >> key_exit;
